@@ -17,7 +17,7 @@ Quick start
 """
 from ._reconstruct import reconstruct
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__  = "Gopi Pitchai"
 __email__   = "gopipitchai@gmail.com"
 __license__ = "MIT"
