@@ -7,18 +7,18 @@
 
 **Reconstruct Azure Document Intelligence JSON output into readable spatial text layouts.**
 
-`azure-di-reconstruct` takes the JSON returned by the [Azure Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/) `prebuilt-read` model and reproduces the original document's two-dimensional layout as a monospace text grid "” no image file, no external dependencies.
+`azure-di-reconstruct` takes the JSON returned by the [Azure Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/) `prebuilt-read` model and reproduces the original document's two-dimensional layout as a monospace text grid -- no image file, no external dependencies.
 
 ---
 
 ## Features
 
-- **Zero runtime dependencies** "” pure Python 3.10+
-- **Language agnostic** "” works with any language Azure DI supports (Tamil, Hindi, English, Arabic, Chinese, etc.)
-- **Multi-page support** "” reconstruct any page by index
-- **Two output modes** "” pipe-bordered boxes or plain spatial text
-- **Tunable layout** "” four hyperparameters control grouping and grid resolution
-- **Lightweight** "” single function call, no setup required
+- **Zero runtime dependencies** -- pure Python 3.10+
+- **Language agnostic** -- works with any language Azure DI supports (Tamil, Hindi, English, Arabic, Chinese, etc.)
+- **Multi-page support** -- reconstruct any page by index
+- **Two output modes** -- pipe-bordered boxes or plain spatial text
+- **Tunable layout** -- four hyperparameters control grouping and grid resolution
+- **Lightweight** -- single function call, no setup required
 
 ---
 
@@ -32,17 +32,17 @@ Azure DI returns paragraph polygons in inch coordinates. `azure-di-reconstruct`:
 4. **Renders** a monospace grid with each paragraph in its original spatial position
 
 ```
-+------------------------------+          +--------------------+
-| à®•à®¿à®°à¯ˆà®¯à®®à¯ à®•à¯Šà®Ÿà¯à®ªà¯à®ªà®µà®°à¯ à®ªà¯‡à®µà®°à¯    |          | à®•à®¿à®°à¯ˆà®¯à®®à¯ à®µà®¾à®™à¯à®•à¯à®ªà®µà®°à¯ |
-+------------------------------+          +--------------------+
++-------------------------------+          +---------------------+
+| Seller Name / Agent           |          | Buyer Name          |
++-------------------------------+          +---------------------+
 
          +--------------------------------------+
          | INDIA NON JUDICIAL                   |
          +--------------------------------------+
 
-+----------------------------+             +------------------+
-| 91 à®¨à¯†. à®šà®®à®¿à®Ÿà¯à®Ÿà®¿à®±à¯à®•à¯à®®à¯      |             | à®µà®Ÿà®•à¯à®•à¯,          |
-+----------------------------+             +------------------+
++------------------------------+             +------------------+
+| 91 North boundary            |             | North side       |
++------------------------------+             +------------------+
 ```
 
 ---
@@ -82,16 +82,16 @@ print(reconstruct(data, page=1, total_cols=160))
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `json_data` | `dict` | "” | Parsed Azure DI JSON with `analyzeResult` key |
+| `json_data` | `dict` | required | Parsed Azure DI JSON with `analyzeResult` key |
 | `page` | `int` | `0` | Zero-based page index to reconstruct |
 | `height_threshold` | `float` | `0.8` | Minimum Y-overlap ratio for blocks to share a row |
 | `width_threshold` | `float` | `0.3` | Maximum X-overlap ratio before blocks are placed in separate rows |
 | `total_cols` | `int` | `120` | Output grid width in characters |
-| `borders` | `bool` | `True` | Wrap blocks in `+---+` / `\| \|` box characters |
+| `borders` | `bool` | `True` | Wrap blocks in `+---+` / `| |` box characters |
 
-**Returns** `str` "” monospace text grid.
+**Returns** `str` -- monospace text grid.
 
-**Raises** `ValueError` if `page` index exceeds the document's page count.
+**Raises** `ValueError` if `page` index exceeds the document page count.
 
 ---
 
@@ -100,24 +100,24 @@ print(reconstruct(data, page=1, total_cols=160))
 ### `height_threshold`
 Controls whether two blocks are on the **same row or separate rows**.
 
-- **Higher (e.g. 0.9)** "” stricter; blocks must nearly perfectly align vertically to share a row. Best for clean printed documents.
-- **Lower (e.g. 0.5)** "” looser; allows blocks with rough vertical alignment to share a row. Best for handwritten or skewed scans.
+- **Higher (e.g. 0.9)** -- stricter; blocks must nearly perfectly align vertically to share a row. Best for clean printed documents.
+- **Lower (e.g. 0.5)** -- looser; allows blocks with rough vertical alignment to share a row. Best for handwritten or skewed scans.
 
 ### `width_threshold`
 Controls column separation within a row.
 
-- **Lower (e.g. 0.1)** "” even small X overlaps force blocks into separate rows (strict column separation).
-- **Higher (e.g. 0.6)** "” blocks need heavy X overlap before being separated (permissive).
+- **Lower (e.g. 0.1)** -- even small X overlaps force blocks into separate rows (strict column separation).
+- **Higher (e.g. 0.6)** -- blocks need heavy X overlap before being separated (permissive).
 
 ### `total_cols`
 Maps the page width to a fixed number of character columns.
 
-- **Fewer columns (60"“80)** "” more compressed, fits narrow terminals.
-- **More columns (140"“200)** "” more spatial detail, better column separation.
+- **Fewer columns (60-80)** -- more compressed, fits narrow terminals.
+- **More columns (140-200)** -- more spatial detail, better column separation.
 
 ### `borders`
-- `True` "” `+---+` / `| |` box characters around each block (default, best for verification)
-- `False` "” plain text with spatial positioning only (best for copy-paste)
+- `True` -- `+---+` / `| |` box characters around each block (default, best for verification)
+- `False` -- plain text with spatial positioning only (best for copy-paste)
 
 ---
 
@@ -176,13 +176,14 @@ page_2 = reconstruct(data, page=1, total_cols=100)
 }
 ```
 
-If using the Azure Python SDK, wrap the result:
+If using the Azure Python SDK, wrap the result before passing to `reconstruct()`:
 
 ```python
 from azure.ai.documentintelligence.models import AnalyzeDocumentRequest
 
-result  = client.begin_analyze_document("prebuilt-read", body=request).result()
-data    = {"analyzeResult": result.as_dict()}   # wrap before passing to reconstruct()
+result = client.begin_analyze_document("prebuilt-read", body=request).result()
+data   = {"analyzeResult": result.as_dict()}
+print(reconstruct(data))
 ```
 
 ---
@@ -191,9 +192,9 @@ data    = {"analyzeResult": result.as_dict()}   # wrap before passing to reconst
 
 | Azure DI Model | Supported |
 |---|---|
-| `prebuilt-read` (OCR) | âœ… Full support |
-| `prebuilt-layout` | âš ï¸ Paragraphs extracted; table cell grouping may be inaccurate |
-| `prebuilt-document` | âš ï¸ Paragraph-level extraction only |
+| `prebuilt-read` (OCR) | Full support |
+| `prebuilt-layout` | Paragraph-level only; table cell grouping may be inaccurate |
+| `prebuilt-document` | Paragraph-level extraction only |
 
 > **Note:** The `prebuilt-read` model produces the most accurate spatial reconstruction
 > because its paragraph boundaries align closely with the visual layout.
@@ -202,12 +203,12 @@ data    = {"analyzeResult": result.as_dict()}   # wrap before passing to reconst
 
 ## Limitations
 
-- **Character alignment** "” Tamil, Devanagari, Arabic, and CJK characters may not be monospace-width in all terminals, which can affect column alignment in the text grid.
-- **Rotated pages** "” heavily rotated page scans may require pre-processing before Azure DI analysis.
-- **Complex tables** "” table cells are treated as individual paragraphs; explicit table structure is not preserved.
+- **Character alignment** -- Tamil, Devanagari, Arabic, and CJK characters may not be monospace-width in all terminals, which can affect column alignment in the text grid.
+- **Rotated pages** -- heavily rotated page scans may require pre-processing before Azure DI analysis.
+- **Complex tables** -- table cells are treated as individual paragraphs; explicit table structure is not preserved.
 
 ---
 
 ## License
 
-MIT Â© 2026 Gopi Pitchai. See [LICENSE](LICENSE) for details.
+MIT (c) 2026 Gopi Pitchai. See [LICENSE](LICENSE) for details.
