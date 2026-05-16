@@ -33,15 +33,15 @@ Azure DI returns paragraph polygons in inch coordinates. `azure-di-reconstruct`:
 
 ```text
 +--------------------+                              +----------+
-| Rs. 100            |                              | Page 1   |
+| Stamp Value        |                              | Page 1   |
 +--------------------+                              +----------+
 
                   +------------------------------+
-                  | ONE HUNDRED RUPEES           |
+                  | STAMP PAPER VALUE            |
                   +------------------------------+
 
          +------------------------------------------+
-         | TAMILNADU                                |
+         | STATE NAME                               |
          +------------------------------------------+
 
 +-----------------------------+          +----------------------+
@@ -49,8 +49,8 @@ Azure DI returns paragraph polygons in inch coordinates. `azure-di-reconstruct`:
 +-----------------------------+          +----------------------+
 
 +-----------------------------+          +----------------------+
-| Door No: 17790              |          | Coimbatore           |
-| Date: 7-9-16                |          |                      |
+| Door No: XXXX               |          | City Name            |
+| Date: DD-MM-YY              |          |                      |
 +-----------------------------+          +----------------------+
 
 +------------------------------------------------------------------+
@@ -70,15 +70,15 @@ Azure DI returns paragraph polygons in inch coordinates. `azure-di-reconstruct`:
 +------------------------------------------------------------------+
 
 +-----------------------------+          +----------------------+
-| E.N. Raja                   |          | APP 7                |
+| Seller Signature            |          | Official Seal        |
 +-----------------------------+          +----------------------+
 
          +------------------------------------------+
-         | Registrar Office: 8 / 2008 / TUP         |
+         | Registrar Office: XX / XXXX / XXX        |
          +------------------------------------------+
 
 +-----------------------------+          +----------------------+
-| Document No: 259/2013       |          | Total Pages: 14      |
+| Document No: XXX/XXXX       |          | Total Pages: XX      |
 +-----------------------------+          +----------------------+
 ```
 
@@ -238,7 +238,7 @@ print(reconstruct(data))
 |-----------------------|--------------|
 | `prebuilt-read` (OCR) | Full support |
 
-> This package is designed specifically for the `prebuilt-read` output.
+> This package is designed specifically for the `prebuilt-read` (OCR/Read) output.
 > Other Azure DI models are not supported.
 
 ---
