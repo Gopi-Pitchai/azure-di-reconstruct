@@ -36,10 +36,6 @@ Azure DI returns paragraph polygons in inch coordinates. `azure-di-reconstruct`:
 | Seller Name / Agent           |          | Buyer Name          |
 +-------------------------------+          +---------------------+
 
-         +--------------------------------------+
-         | INDIA NON JUDICIAL                   |
-         +--------------------------------------+
-
 +------------------------------+             +------------------+
 | 91 North boundary            |             | North side       |
 +------------------------------+             +------------------+
@@ -78,7 +74,10 @@ print(reconstruct(data, page=1, total_cols=160))
 
 ## API Reference
 
-### `reconstruct(json_data, *, page, height_threshold, width_threshold, total_cols, borders)`
+### `reconstruct(json_data, page, height_threshold, width_threshold, total_cols, borders)`
+
+> All parameters after `json_data` are keyword-only -- they must be passed by name:
+> `reconstruct(data, page=1, borders=False)` not `reconstruct(data, 1, False)`.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -190,20 +189,18 @@ print(reconstruct(data))
 
 ## Supported Models
 
-| Azure DI Model | Supported |
-|---|---|
+| Azure DI Model        | Supported    |
+|-----------------------|--------------|
 | `prebuilt-read` (OCR) | Full support |
-| `prebuilt-layout` | Paragraph-level only; table cell grouping may be inaccurate |
-| `prebuilt-document` | Paragraph-level extraction only |
 
-> **Note:** The `prebuilt-read` model produces the most accurate spatial reconstruction
-> because its paragraph boundaries align closely with the visual layout.
+> This package is designed specifically for the `prebuilt-read` output.
+> Other Azure DI models are not supported.
 
 ---
 
 ## Limitations
 
-- **Character alignment** -- Tamil, Devanagari, Arabic, and CJK characters may not be monospace-width in all terminals, which can affect column alignment in the text grid.
+- **Character alignment** -- non-English characters may not be monospace-width in all terminals, which can affect column alignment in the text grid.
 - **Rotated pages** -- heavily rotated page scans may require pre-processing before Azure DI analysis.
 - **Complex tables** -- table cells are treated as individual paragraphs; explicit table structure is not preserved.
 
