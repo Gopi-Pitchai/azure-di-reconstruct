@@ -124,14 +124,14 @@ print(reconstruct(data, page=1, total_cols=160))
 
 ### `height_threshold`
 
-Controls whether two blocks are on the **same row or separate rows**.
+Range: `0.0 – 1.0`. Controls whether two blocks are on the **same row or separate rows**.
 
 - **Higher (e.g. 0.9)** -- stricter; blocks must nearly perfectly align vertically to share a row. Best for clean printed documents.
 - **Lower (e.g. 0.5)** -- looser; allows blocks with rough vertical alignment to share a row. Best for handwritten or skewed scans.
 
 ### `width_threshold`
 
-Controls column separation within a row.
+Range: `0.0 – 1.0`. Controls column separation within a row.
 
 - **Lower (e.g. 0.1)** -- even small X overlaps force blocks into separate rows (strict column separation).
 - **Higher (e.g. 0.6)** -- blocks need heavy X overlap before being separated (permissive).
