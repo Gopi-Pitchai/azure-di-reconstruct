@@ -1,0 +1,64 @@
+[build-system]
+requires      = ["hatchling"]
+build-backend = "hatchling.build"
+
+# ---------------------------------------------------------------------------
+# Project metadata
+# ---------------------------------------------------------------------------
+[project]
+name        = "azure-di-reconstruct"
+version     = "0.1.0"
+description = "Reconstruct Azure Document Intelligence JSON output into readable spatial text layouts"
+readme      = "README.md"
+license     = { file = "LICENSE" }
+authors     = [{ name = "Gopi Pitchai", email = "gopipitchai@gmail.com" }]
+
+requires-python = ">=3.10"
+dependencies    = []          # zero runtime dependencies
+
+keywords = [
+    "azure",
+    "document-intelligence",
+    "document-ai",
+    "ocr",
+    "layout",
+    "reconstruction",
+    "text-layout",
+    "land-registration",
+    "tamil",
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: General",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage    = "https://github.com/Gopi-Pitchai/azure-di-reconstruct"
+Repository  = "https://github.com/Gopi-Pitchai/azure-di-reconstruct"
+Issues      = "https://github.com/Gopi-Pitchai/azure-di-reconstruct/issues"
+Changelog   = "https://github.com/Gopi-Pitchai/azure-di-reconstruct/blob/main/CHANGELOG.md"
+
+# ---------------------------------------------------------------------------
+# Build configuration
+# ---------------------------------------------------------------------------
+[tool.hatch.build.targets.wheel]
+packages = ["azure_di_reconstruct"]
+
+# ---------------------------------------------------------------------------
+# Optional: testing
+# ---------------------------------------------------------------------------
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
