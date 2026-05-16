@@ -7,7 +7,8 @@
 
 **Reconstruct Azure Document Intelligence JSON output into readable spatial text layouts.**
 
-`azure-di-reconstruct` takes the JSON returned by the [Azure Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/) `prebuilt-read` model and reproduces the original document's two-dimensional layout as a monospace text grid -- no image file, no external dependencies.
+`azure-di-reconstruct` takes the JSON returned by the [Azure Document Intelligence](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/) `prebuilt-read` (OCR/Read)
+ model and reproduces the original document's two-dimensional layout as a monospace text grid -- no image file, no external dependencies.
 
 ---
 
