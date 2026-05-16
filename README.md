@@ -31,14 +31,55 @@ Azure DI returns paragraph polygons in inch coordinates. `azure-di-reconstruct`:
 3. **Maps** inch coordinates to character columns proportionally
 4. **Renders** a monospace grid with each paragraph in its original spatial position
 
-```
-+-------------------------------+          +---------------------+
-| Seller Name / Agent           |          | Buyer Name          |
-+-------------------------------+          +---------------------+
+```text
++--------------------+                              +----------+
+| Rs. 100            |                              | Page 1   |
++--------------------+                              +----------+
 
-+------------------------------+             +------------------+
-| 91 North boundary            |             | North side       |
-+------------------------------+             +------------------+
+                  +------------------------------+
+                  | ONE HUNDRED RUPEES           |
+                  +------------------------------+
+
+         +------------------------------------------+
+         | TAMILNADU                                |
+         +------------------------------------------+
+
++-----------------------------+          +----------------------+
+| Seller Name / Agent         |          | Buyer Name           |
++-----------------------------+          +----------------------+
+
++-----------------------------+          +----------------------+
+| Door No: 17790              |          | Coimbatore           |
+| Date: 7-9-16                |          |                      |
++-----------------------------+          +----------------------+
+
++------------------------------------------------------------------+
+| 91 ft - North boundary (Road)                                    |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+| 129 ft - East boundary (Plot boundary)                           |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+| 40 ft - South boundary (Road)                                    |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+| 127 ft - West boundary (Plot boundary)                           |
++------------------------------------------------------------------+
+
++-----------------------------+          +----------------------+
+| E.N. Raja                   |          | APP 7                |
++-----------------------------+          +----------------------+
+
+         +------------------------------------------+
+         | Registrar Office: 8 / 2008 / TUP         |
+         +------------------------------------------+
+
++-----------------------------+          +----------------------+
+| Document No: 259/2013       |          | Total Pages: 14      |
++-----------------------------+          +----------------------+
 ```
 
 ---
@@ -79,14 +120,14 @@ print(reconstruct(data, page=1, total_cols=160))
 > All parameters after `json_data` are keyword-only -- they must be passed by name:
 > `reconstruct(data, page=1, borders=False)` not `reconstruct(data, 1, False)`.
 
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `json_data` | `dict` | required | Parsed Azure DI JSON with `analyzeResult` key |
-| `page` | `int` | `0` | Zero-based page index to reconstruct |
-| `height_threshold` | `float` | `0.8` | Minimum Y-overlap ratio for blocks to share a row |
-| `width_threshold` | `float` | `0.3` | Maximum X-overlap ratio before blocks are placed in separate rows |
-| `total_cols` | `int` | `120` | Output grid width in characters |
-| `borders` | `bool` | `True` | Wrap blocks in `+---+` / `| |` box characters |
+| Parameter          | Type    | Default  | Description                                              |
+|--------------------|---------|----------|----------------------------------------------------------|
+| `json_data`        | `dict`  | required | Parsed Azure DI JSON with `analyzeResult` key            |
+| `page`             | `int`   | `0`      | Zero-based page index to reconstruct                     |
+| `height_threshold` | `float` | `0.8`    | Minimum Y-overlap ratio for blocks to share a row        |
+| `width_threshold`  | `float` | `0.3`    | Maximum X-overlap ratio before blocks are separated      |
+| `total_cols`       | `int`   | `120`    | Output grid width in characters                          |
+| `borders`          | `bool`  | `True`   | Wrap blocks in box characters (`+---+` and pipe borders) |
 
 **Returns** `str` -- monospace text grid.
 
@@ -97,25 +138,29 @@ print(reconstruct(data, page=1, total_cols=160))
 ## Parameter Guide
 
 ### `height_threshold`
+
 Controls whether two blocks are on the **same row or separate rows**.
 
 - **Higher (e.g. 0.9)** -- stricter; blocks must nearly perfectly align vertically to share a row. Best for clean printed documents.
 - **Lower (e.g. 0.5)** -- looser; allows blocks with rough vertical alignment to share a row. Best for handwritten or skewed scans.
 
 ### `width_threshold`
+
 Controls column separation within a row.
 
 - **Lower (e.g. 0.1)** -- even small X overlaps force blocks into separate rows (strict column separation).
 - **Higher (e.g. 0.6)** -- blocks need heavy X overlap before being separated (permissive).
 
 ### `total_cols`
+
 Maps the page width to a fixed number of character columns.
 
 - **Fewer columns (60-80)** -- more compressed, fits narrow terminals.
 - **More columns (140-200)** -- more spatial detail, better column separation.
 
 ### `borders`
-- `True` -- `+---+` / `| |` box characters around each block (default, best for verification)
+
+- `True` -- box characters around each block (default, best for verification)
 - `False` -- plain text with spatial positioning only (best for copy-paste)
 
 ---
